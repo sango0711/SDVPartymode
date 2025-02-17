@@ -72,6 +72,9 @@ Really? Come on! Try more! Think of it like this: At EOL the car drives over som
 
 
 
+# Purpose
+
+
 
 
 This page is part of a good-bye present from Dr. Sebastian Burg for a physical Mini-Car which should be located somewhere in the ETAS Home in Feuerbach, probably on the second floor in the security area.
