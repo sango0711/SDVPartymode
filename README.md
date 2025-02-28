@@ -83,3 +83,7 @@ This page is part of a good-bye present from Dr. Sebastian Burg for a physical M
 
 
 Thanks for the time and opportunities. Hope we will meet again. Bye! 
+
+For those interested, as a base I used this 3D Model, removed the text and added the ETAS Logo to it. https://www.printables.com/model/100108-racing-car
+
+Printed in 3D Jake Magic PLA Purpur Delirium, which fits the ETAS colorscheme perfectly https://www.3djake.de/3djake/magicpla-purpur-delirium
