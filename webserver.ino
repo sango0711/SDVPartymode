@@ -24,8 +24,17 @@ const String localIPURL = "http://4.3.2.1";	 // a string version of the local IP
 volatile long last = 0;
 volatile bool turnOff = false;
 volatile long offAt = 0;
-int led = 13;
 
+long randNumber;
+
+int ledfloor = 13;
+int ledred1 = 12;
+int ledred2 = 27;
+int ledwhite1 = 33;
+int ledwhite2 = 15;
+
+int reelSwitch = 32;
+int switchState;
 
 const char index_html[] PROGMEM = R"=====(
   <!DOCTYPE html> <html>
@@ -141,6 +150,12 @@ void startSoftAccessPoint(const char *ssid, const char *password, const IPAddres
 	vTaskDelay(100 / portTICK_PERIOD_MS);  // Add a small delay
 }
 
+void startpartymode() {
+  turnOff = true;
+    offAt = millis() + 5000; //save a variable of now + 5 seconds
+    
+}
+
 void setUpWebserver(AsyncWebServer &server, const IPAddress &localIP) {
 	//======================== Webserver ========================
 	// WARNING IOS (and maybe macos) WILL NOT POP UP IF IT CONTAINS THE WORD "Success" https://www.esp8266.com/viewtopic.php?f=34&t=4398
@@ -209,9 +224,9 @@ void setUpWebserver(AsyncWebServer &server, const IPAddress &localIP) {
 // Serve Working Code HTML Page
 	server.on("/access/ok", HTTP_ANY, [](AsyncWebServerRequest *request) {
     // Turn on the Party!!!!
-    turnOff = true;
-    offAt = millis() + 5000; //save a variable of now + 5 seconds
-    digitalWrite(led, HIGH); //turn on
+  
+  startpartymode();
+
 
 		AsyncWebServerResponse *response = request->beginResponse(200, "text/html", active_html);
 		response->addHeader("Cache-Control", "public,max-age=31536000");  // save this file to cache for 1 year (unless you refresh)
@@ -231,6 +246,26 @@ void setUpWebserver(AsyncWebServer &server, const IPAddress &localIP) {
 	});
 }
 
+uint8_t makeRandomBlink()
+{
+  randNumber = random(0, 2);
+  if(randNumber == 0)
+    return LOW;
+  else 
+    return HIGH;
+
+}
+
+void partymode() {
+  
+  digitalWrite(ledfloor, makeRandomBlink());
+  digitalWrite(ledred1, makeRandomBlink());
+  digitalWrite(ledred2, makeRandomBlink());
+  digitalWrite(ledwhite1, makeRandomBlink());
+  digitalWrite(ledwhite2, makeRandomBlink());
+  
+}
+
 void setup() {
 	// Set the transmit buffer size for the Serial object and start it with a baud rate of 115200.
 	Serial.setTxBufferSize(1024);
@@ -240,7 +275,23 @@ void setup() {
 	while (!Serial)
 		;
 
-    pinMode(led, OUTPUT);
+
+  // Partymode Stuff
+  randomSeed(analogRead(0));
+
+  pinMode(ledfloor, OUTPUT);
+  pinMode(ledred1, OUTPUT);
+  pinMode(ledred2, OUTPUT);
+  pinMode(ledwhite1, OUTPUT);
+  pinMode(ledwhite2, OUTPUT);
+
+  pinMode (reelSwitch, INPUT);
+
+  digitalWrite(ledfloor, LOW);
+  digitalWrite(ledred1, HIGH);
+  digitalWrite(ledred2, HIGH);
+  digitalWrite(ledwhite1, HIGH);
+  digitalWrite(ledwhite2, HIGH);
 
 	// Print a welcome message to the Serial port.
 	Serial.println("\n\nCaptive Test, V0.5.0 compiled " __DATE__ " " __TIME__ " by CD_FER");  //__DATE__ is provided by the platformio ide
@@ -263,12 +314,27 @@ void setup() {
 
 void loop() {
 	dnsServer.processNextRequest();	 // I call this atleast every 10ms in my other projects (can be higher but I haven't tested it for stability)
-    if(turnOff)
+  if(turnOff)
   {
    if(millis() >= offAt)
     {
-       digitalWrite(led, LOW); //turn off led
-    } 
+      // Partymode aus....
+      digitalWrite(ledfloor, LOW);
+      digitalWrite(ledred1, HIGH);
+      digitalWrite(ledred2, HIGH);
+      digitalWrite(ledwhite1, HIGH);
+      digitalWrite(ledwhite2, HIGH);
+      turnOff = false;
+    } else {
+      partymode();
+    }
+  }
+
+  switchState = digitalRead(reelSwitch); // read the value of digital interface 2 and assign it to switchState
+  
+  if (switchState == LOW) // when the magnetic sensor detect a signal, LED is flashing
+  {
+    startpartymode();
   }
 	delay(DNS_INTERVAL);			 // seems to help with stability, if you are doing other things in the loop this may not be needed
 }
