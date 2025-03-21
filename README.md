@@ -8,7 +8,7 @@ One of the most requested and awaited feature is the CycurPARTY™. The feature
 
 # How to access the CycurPARTY™
 
-After starting the car through the on/off switch, the head- and backlights will turn on and a WiFi AP will be available. If the lights do not come on, refuel the car by the universal fast charger via the mini USB outlet at the trunk. Connect your Device to the open "ETAS SDV.SB" network and access the website under the IP 192.168.4.1 
+After starting the car through the on/off switch, the head- and backlights will turn on and a WiFi AP will be available. If the lights do not come on, refuel the car by the universal fast charger via the mini USB outlet at the trunk. Connect your Device to the open "ETAS SDV.SB" network and access the website under the IP 4.3.2.1
 
 There you will find a website where you can enter the 8Byte-Hex-formatted code, which you could order through your Manufacturer APP. The FOTA functionality will be available after the 2026 upgrade* (* Extra Costs will apply)
 
