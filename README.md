@@ -1,6 +1,7 @@
 # SDVPartymode
 Just a little fun project for a good-bye present using ESP-32
 
+![Picture of front of car](assets/CarFront.jpg)
 
 In 2025 the ETAS SDV.SB was released to the internal testing team. The new supercar is enabled by the high power HPC.SB in the center of its E/E Architecture.
 
